@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  opcua-server:
+    build: .
+    ports:
+      - "4840:4840"
+    restart: unless-stopped
+    volumes:
+      - ./server.py:/app/server.py
