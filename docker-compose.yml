@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   opcua-server:
     build: .
@@ -8,3 +6,21 @@ services:
     restart: unless-stopped
     volumes:
       - ./server.py:/app/server.py
+    networks:
+      - app-network
+
+  mqtt:
+    image: eclipse-mosquitto:latest
+    ports:
+      - "1883:1883"    # MQTT
+      - "8080:8080"    # WebSocket
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
